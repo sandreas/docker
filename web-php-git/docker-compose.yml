@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www:/www
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./data/letsencrypt/etc:/etc/letsencrypt
+      - ./data/letsencrypt/var/lib:/var/lib/letsencrypt
+  php:
+    image: php:latest
+    volumes:
+      - ./www:/www
+  git:
+    image: gitea/gitea:latest
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    volumes:
+      - ./data/gitea:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+
+

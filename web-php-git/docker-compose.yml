@@ -13,6 +13,9 @@ services:
       - ./data/letsencrypt/var/lib:/var/lib/letsencrypt
   php:
     image: php:latest
+    build:
+      context: ../_dockerfiles
+      dockerfile: php-Dockerfile
     volumes:
       - ./www:/www
   git:
